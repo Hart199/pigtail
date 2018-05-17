@@ -9,6 +9,7 @@ tags
 *.orig
 
 .gradle
+.vertx
 
 # General build files
 **/build/*
