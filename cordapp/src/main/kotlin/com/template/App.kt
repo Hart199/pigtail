@@ -6,7 +6,6 @@ import net.corda.core.flows.InitiatingFlow
 import net.corda.core.flows.StartableByRPC
 import net.corda.core.flows.StartableByService
 import net.corda.core.node.AppServiceHub
-import net.corda.core.utilities.getOrThrow
 
 @InitiatingFlow
 @StartableByRPC
@@ -24,6 +23,6 @@ interface MyService {
 
 class MyServiceImpl(val services: AppServiceHub) : MyService {
     override fun echo(msg: String) : String {
-        return services.startFlow(EchoFlow(msg)).returnValue.getOrThrow()
+        return services.myInfo.legalIdentities.first().name.organisation
     }
 }
