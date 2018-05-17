@@ -19,7 +19,7 @@ class BootstrapBraidService(val serviceHub: AppServiceHub) : SingletonSerializeA
     init {
         BraidConfig()
                 // Include a flow on the Braid server.
-                .withFlow(GetTransactionFlow::class.java)
+                .withFlow(WhoAmIFlow::class.java)
                 // Include a service on the Braid server.
                 .withService("myService", BraidService(serviceHub))
                 // The port the Braid server listens on.

@@ -1,15 +1,13 @@
 package com.template
 
-import net.corda.core.crypto.SecureHash
 import net.corda.core.node.ServiceHub
-import net.corda.core.transactions.SignedTransaction
 
 /**
  * Braid services are classes that define functions that Braid will expose
  * via the Braid server running on the node.
  *
- * Our service defines a single method, `getTransaction`, that takes a
- * transaction hash and returns the corresponding transaction.
+ * Our service defines a single method, `whoAmiI`, that returns our node's
+ * name.
  *
  * Braid services do not have to follow a specific format:
  *   * They do not have to implement a specific interface or subclass a
@@ -19,16 +17,7 @@ import net.corda.core.transactions.SignedTransaction
  * @property serviceHub the node's `ServiceHub`.
  */
 class BraidService(val serviceHub: ServiceHub) {
-
-    /**
-     * Retrieves the transaction with hash [id] from the node's transaction
-     * storage.
-     *
-     * @param id the transaction hash to retrieve.
-     * @return the transaction with hash [id].
-     */
-    fun getTransaction(id: SecureHash) : SignedTransaction {
-        return serviceHub.validatedTransactions.getTransaction(id)
-                ?: throw IllegalArgumentException("Unknown transaction.")
+    fun whoAmI() : String {
+        return serviceHub.myInfo.legalIdentities.first().name.organisation
     }
 }
