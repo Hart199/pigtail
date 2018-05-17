@@ -44,18 +44,6 @@ sourceSets {
             srcDir "config/test"
         }
     }
-    integrationTest {
-        kotlin {
-            compileClasspath += main.output + test.output
-            runtimeClasspath += main.output + test.output
-            srcDir file('src/integration-test/kotlin')
-        }
-    }
-}
-
-configurations {
-    integrationTestCompile.extendsFrom testCompile
-    integrationTestRuntime.extendsFrom testRuntime
 }
 
 dependencies {
@@ -63,7 +51,6 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     testCompile "junit:junit:$junit_version"
 
-    // Corda integration dependencies
     cordaCompile "$corda_release_group:corda-core:$corda_release_version"
     cordaCompile "$corda_release_group:corda-finance:$corda_release_version"
     cordaCompile "$corda_release_group:corda-jackson:$corda_release_version"
@@ -76,11 +63,6 @@ dependencies {
     testCompile "$corda_release_group:corda-node-driver:$corda_release_version"
 
     cordapp project(":cordapp")
-}
-
-task integrationTest(type: Test, dependsOn: []) {
-    testClassesDirs = sourceSets.integrationTest.output.classesDirs
-    classpath = sourceSets.integrationTest.runtimeClasspath
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
@@ -99,9 +81,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         notary = [validating : true]
         p2pPort 10002
         cordapps = [
-                "$project.group:cordapp-contracts-states:$project.version",
-                "$project.group:cordapp:$project.version",
-                "$corda_release_group:corda-finance:$corda_release_version"
+                "$project.group:cordapp:$project.version"
         ]
     }
     node {
@@ -113,9 +93,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         }
         webPort 10007
         cordapps = [
-                "$project.group:cordapp-contracts-states:$project.version",
-                "$project.group:cordapp:$project.version",
-                "$corda_release_group:corda-finance:$corda_release_version"
+                "$project.group:cordapp:$project.version"
         ]
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
@@ -128,9 +106,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         }
         webPort 10010
         cordapps = [
-                "$project.group:cordapp-contracts-states:$project.version",
-                "$project.group:cordapp:$project.version",
-                "$corda_release_group:corda-finance:$corda_release_version"
+                "$project.group:cordapp:$project.version"
         ]
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
