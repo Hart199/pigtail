@@ -2,6 +2,7 @@ repositories {
     mavenLocal()
     jcenter()
     mavenCentral()
+    maven { url 'http://bluebank-nexus.uksouth.cloudapp.azure.com/repository/maven-public/'}
     maven { url 'https://jitpack.io' }
     maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases' }
 }
@@ -52,6 +53,7 @@ dependencies {
     cordaRuntime "$corda_release_group:corda-webserver:$corda_release_version"
 
     testCompile "$corda_release_group:corda-node-driver:$corda_release_version"
+    compile "io.bluebank.braid:braid-corda:3.1.3"
 }
 
 task integrationTest(type: Test, dependsOn: []) {
