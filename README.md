@@ -4,8 +4,9 @@
 
 A simple Braid service and JS client example.
 
-Braid allows you to easily define a server running on your node that serves 
-up flow and other endpoints that can be consumed in either Java or JavaScript. 
+[Braid](https://gitlab.com/bluebank/braid) allows you to easily define a 
+server running on your node that serves up flow and other endpoints that can 
+be consumed in either Java or JavaScript. 
 
 We define our 
 [Braid server](https://github.com/joeldudleyr3/pigtail/blob/master/cordapp/src/main/kotlin/com/template/BootstrapBraidService.kt) 
@@ -28,7 +29,7 @@ as follows:
         }
     }
     
-After starting the node as normal, we can consume its endpoints using a 
+After starting the node as normal, we consume its endpoints using a 
 [Node.js client](https://github.com/joeldudleyr3/pigtail/blob/master/client-js/client.js).
 
 # Pre-requisites:
