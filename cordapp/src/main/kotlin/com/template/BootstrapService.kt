@@ -6,21 +6,27 @@ import net.corda.core.node.AppServiceHub
 import net.corda.core.node.services.CordaService
 import net.corda.core.serialization.SingletonSerializeAsToken
 
+/**
+ * A regular Corda service that bootstraps the Braid server when the node
+ * starts.
+ *
+ * The Braid server offers a user-defined set of flows and services.
+ *
+ * @property serviceHub the node's `AppServiceHub`.
+ */
 @CordaService
-class BootstrapService(val services: AppServiceHub) : SingletonSerializeAsToken() {
-
+class BootstrapBraidService(val serviceHub: AppServiceHub) : SingletonSerializeAsToken() {
     init {
-        // We initiate Braid server as a service when the node starts.
         BraidConfig()
                 // Include a flow on the Braid server.
-                .withFlow(EchoFlow::class.java)
+                .withFlow(GetTransactionFlow::class.java)
                 // Include a service on the Braid server.
-                .withService("myService", MyServiceImpl(services))
+                .withService("myService", BraidService(serviceHub))
                 // The port the Braid server listens on.
                 .withPort(8080)
                 // Using http instead of https.
                 .withHttpServerOptions(HttpServerOptions().setSsl(false))
                 // Start the Braid server.
-                .bootstrapBraid(services)
+                .bootstrapBraid(serviceHub)
     }
 }

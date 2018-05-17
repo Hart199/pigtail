@@ -7,13 +7,10 @@ import net.corda.testing.driver.driver
 import net.corda.testing.node.User
 
 fun main(args: Array<String>) {
-    // No permissions required as we are not invoking flows.
-    val user = User("user1", "test", permissions = setOf("ALL"))
-    driver(DriverParameters(
-            waitForAllNodesToFinish = true,
-            startNodesInProcess = true,
-            extraCordappPackagesToScan = listOf("com.template"))) {
-        startNode(providedName = CordaX500Name("PartyA", "London", "GB"), rpcUsers = listOf(user)).getOrThrow()
-        startNode(providedName = CordaX500Name("PartyB", "New York", "US"), rpcUsers = listOf(user)).getOrThrow()
+    val nodeName = CordaX500Name("PartyA", "London", "GB")
+    val rpcUser = User("user1", "test", permissions = setOf("ALL"))
+    val driverParameters = DriverParameters(waitForAllNodesToFinish = true, startNodesInProcess = true, extraCordappPackagesToScan = listOf("com.template"))
+    driver(driverParameters) {
+        startNode(providedName = nodeName, rpcUsers = listOf(rpcUser)).getOrThrow()
     }
 }
