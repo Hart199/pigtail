@@ -9,7 +9,10 @@ import net.corda.testing.node.User
 fun main(args: Array<String>) {
     val nodeName = CordaX500Name("PartyA", "London", "GB")
     val rpcUser = User("user1", "test", permissions = setOf("ALL"))
-    val driverParameters = DriverParameters(waitForAllNodesToFinish = true, startNodesInProcess = true, extraCordappPackagesToScan = listOf("com.template"))
+    val driverParameters = DriverParameters(
+            waitForAllNodesToFinish = true,
+            notarySpecs = listOf(),
+            extraCordappPackagesToScan = listOf("com.template"))
     driver(driverParameters) {
         startNode(providedName = nodeName, rpcUsers = listOf(rpcUser)).getOrThrow()
     }
