@@ -4,7 +4,30 @@
 
 A simple Braid service and JS client example.
 
-MORE DETAILS REQUIRED.
+Braid allows you to easily define a server running on your node that serves 
+up flow and other endpoints that can be consumed in either Java or JavaScript. 
+
+We define a Braid server as follows:
+
+    @CordaService
+    class BootstrapBraidService(val serviceHub: AppServiceHub) : SingletonSerializeAsToken() {
+        init {
+            BraidConfig()
+                    // Include a flow on the Braid server.
+                    .withFlow(WhoAmIFlow::class.java)
+                    // Include a service on the Braid server.
+                    .withService("myService", BraidService(serviceHub))
+                    // The port the Braid server listens on.
+                    .withPort(8080)
+                    // Using http instead of https.
+                    .withHttpServerOptions(HttpServerOptions().setSsl(false))
+                    // Start the Braid server.
+                    .bootstrapBraid(serviceHub)
+        }
+    }
+    
+After starting the node as normal, we can consume its endpoints using a 
+[Node.js client](https://github.com/joeldudleyr3/pigtail/blob/master/client-js/client.js).
 
 # Pre-requisites:
   
