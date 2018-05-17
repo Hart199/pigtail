@@ -3,7 +3,10 @@
 const express = require('express')
 const Proxy = require('braid-client').Proxy;
 
-let corda = new Proxy({
+const app = express()
+
+// Connects to Braid running on the node.
+let braid = new Proxy({
   url: "http://localhost:8080/api/"
 }, onOpen, onClose, onError, { strictSSL: false });
 
@@ -11,22 +14,26 @@ function onOpen() { console.log('Connected to node.'); }
 function onClose() { console.log('Disconnected from node.'); }
 function onError(err) { console.error(err); process.exit(); }
 
-const app = express()
-
+// Uses Braid to call the WhoAmI flow on the node, and handles the response
+// using callbacks.
 app.get('/whoami-flow-callback', (req, res) => {
-    corda.flows.whoAmIFlow(
+    braid.flows.whoAmIFlow(
         result => res.send("Hey, you're speaking to " + result + "!"),
         err => res.status(500).send(err));
 });
 
+// Uses Braid to call the WhoAmI flow on the node, and handles the response
+// using promises.
 app.get('/whoami-flow-promise', (req, res) => {
-    corda.flows.whoAmIFlow()
+    braid.flows.whoAmIFlow()
     .then(result => res.send("Hey, you're speaking to " + result + "!"))
     .catch(err => res.status(500).send(err));    
 });
 
+// Uses Braid to call the BraidService on the node, and handles the response
+// using callbacks.
 app.get('/whoami-service', (req, res) => {
-    corda.myService.whoAmI(
+    braid.myService.whoAmI(
         result => res.send("Hey, you're speaking to " + result + "!"),
         err => res.status(500).send(err));
 });
