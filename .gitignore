@@ -10,6 +10,8 @@ tags
 
 .gradle
 .vertx
+client-js/.vscode
+client-js/node_modules
 
 # General build files
 **/build/*
