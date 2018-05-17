@@ -1,4 +1,4 @@
-![Braid](https://gitlab.com/bluebank/braid/blob/master/art/logo-small.png)
+![Braid](https://gitlab.com/bluebank/braid/raw/master/art/logo-small.png)
 
 # Pigtail
 
